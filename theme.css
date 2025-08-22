@@ -111,4 +111,40 @@ textarea::placeholder, input::placeholder {
   background-image: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%) !important;
 }
 
+
+/* >>> PATCH: ensure first input/textarea never shows white background on mobile <<< */
+textarea,
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"] {
+  background-color: var(--glass-12) !important;
+  border-color: var(--border-accent-50) !important;
+  color: var(--text-base) !important;
+  -webkit-text-fill-color: var(--text-base) !important;
+  appearance: none;
+  -webkit-appearance: none;
+  background-clip: padding-box;
+}
+
+/* Target common IDs/classes just in case */
+#questionInput,
+textarea#questionInput,
+.question-input {
+  background-color: var(--glass-12) !important;
+  color: var(--text-base) !important;
+  -webkit-text-fill-color: var(--text-base) !important;
+}
+
+/* Autofill background hack */
+input:-webkit-autofill,
+textarea:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0px 1000px var(--glass-12) inset !important;
+  box-shadow: 0 0 0px 1000px var(--glass-12) inset !important;
+  -webkit-text-fill-color: var(--text-base) !important;
+}
+
+
 html, body { overflow-x: hidden; }
