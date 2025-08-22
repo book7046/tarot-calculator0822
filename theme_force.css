@@ -1,0 +1,44 @@
+
+/* =============================================
+   THEME FORCE — final strike for mobile textarea
+   This paints the field using an inset box-shadow so even if
+   the UA forces background-color to white, the visual fill is our glass.
+   ============================================= */
+:root {
+  --glass-fill: rgba(0,0,0,0.28); /* dark glass fill to ensure contrast */
+}
+/* apply to ALL text inputs + textarea */
+textarea,
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="password"],
+input[type="url"],
+input[type="number"],
+input:not([type]) {
+  background: transparent !important;
+  background-image: none !important;
+  color: var(--text-base) !important;
+  -webkit-text-fill-color: var(--text-base) !important;
+  border-color: var(--border-accent-50) !important;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background-clip: padding-box;
+  /* paint the inside no matter what */
+  -webkit-box-shadow: 0 0 0 1000px var(--glass-fill) inset !important;
+          box-shadow: 0 0 0 1000px var(--glass-fill) inset !important;
+}
+/* target common ids/classes */
+#questionInput,
+textarea#questionInput,
+textarea[name="question"],
+textarea[placeholder*="問題"],
+textarea[placeholder*="question"] {
+  -webkit-box-shadow: 0 0 0 1000px var(--glass-fill) inset !important;
+          box-shadow: 0 0 0 1000px var(--glass-fill) inset !important;
+}
+/* keep placeholder readable */
+textarea::placeholder, input::placeholder {
+  color: var(--text-secondary) !important;
+  opacity: 1;
+}
