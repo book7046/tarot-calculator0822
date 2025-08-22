@@ -454,7 +454,7 @@ html, body { overflow-x: hidden; }
             { name: "魔法師", number: "I", suit: "大牌", meaning: "創造力、技能、意志力", reversedMeaning: "操控、欺騙、缺乏專注" },
             { name: "女祭司", number: "II", suit: "大牌", meaning: "直覺、神秘、內在智慧", reversedMeaning: "隱瞞、缺乏直覺、表面化" },
             { name: "女皇", number: "III", suit: "大牌", meaning: "豐饒、母性、創造", reversedMeaning: "依賴、空虛、缺乏成長" },
-            { name: "國王", number: "IV", suit: "大牌", meaning: "權威、結構、控制", reversedMeaning: "專制、缺乏紀律、不成熟" },
+            { name: "皇帝", number: "IV", suit: "大牌", meaning: "權威、結構、控制", reversedMeaning: "專制、缺乏紀律、不成熟" },
             { name: "教宗", number: "V", suit: "大牌", meaning: "傳統、精神指導、學習", reversedMeaning: "叛逆、新方法、個人信念" },
             { name: "戀人", number: "VI", suit: "大牌", meaning: "愛情、選擇、和諧", reversedMeaning: "分離、錯誤選擇、不和諧" },
             { name: "戰車", number: "VII", suit: "大牌", meaning: "勝利、意志力、控制", reversedMeaning: "失控、缺乏方向、失敗" },
@@ -750,19 +750,20 @@ html, body { overflow-x: hidden; }
         card.style.transform = `translate(${x}px, ${y}px) rotate(${angle}deg)`;
         card.style.zIndex = 50 - Math.abs(i - Math.floor(totalCards / 2));
 
+        const cardData = shuffledDeck[i];
         card.addEventListener('click', function () {
-            drawCard(this, i);
+            drawCard(this, cardData);
         });
 
         deck.appendChild(card);
     }
 }
 
-        function drawCard(cardElement, index) {
+        function drawCard(cardElement, selectedCard) {
     if (selectedCards.length >= spreads[currentSpread].cardCount) {
         return;
     }
-    const selectedCard = shuffledDeck[index];
+    if (!selectedCard || !selectedCard.name) { console.warn('Invalid card picked:', selectedCard); return; }
     const isReversed = Math.random() < 0.5;
     drawnCards.push({
         ...selectedCard,
@@ -771,7 +772,8 @@ html, body { overflow-x: hidden; }
     });
     selectedCards.push(cardElement);
     // 從牌堆中移除避免重複
-    shuffledDeck.splice(index, 1);
+    const idx = shuffledDeck.indexOf(selectedCard);
+    if (idx !== -1) shuffledDeck.splice(idx, 1);
     // 視覺選中效果
     cardElement.classList.add('selected');
     const remaining = spreads[currentSpread].cardCount - selectedCards.length;
@@ -812,11 +814,6 @@ html, body { overflow-x: hidden; }
                             <h4 class="text-lg font-medium text-white mb-2">${mindsetCard.name} (${mindsetOrientation})</h4>
                             <p class="text-blue-200">${mindsetMeaning}</p>
                         </div>
-                    </div>
-                    <div class="mt-4 text-center">
-                        <button onclick="drawSupportCard('mindset')" class="bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-semibold py-2 px-4 rounded-lg transition-all duration-300 text-sm">
-                            ✨ 抽取輔助牌 (<span id="mindset-support-count">2</span>/2)
-                        </button>
                     </div>
                     <div id="mindset-support-cards" class="mt-4"></div>
                 </div>
