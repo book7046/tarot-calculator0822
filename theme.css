@@ -1,0 +1,114 @@
+/* =====================================================
+   Tarot Theme — Desktop/Mobile Shared Palette & Glass
+   How to use:
+   - Keep this file as the only place to tune colors.
+   - Works for both desktop & mobile (iOS/Android).
+   ===================================================== */
+
+:root {
+  /* Primary gradient background */
+  --bg-start: #1e3c72;
+  --bg-end:   #2a5298;
+
+  /* Card faces */
+  --card-back-start:  #667eea;
+  --card-back-end:    #764ba2;
+  --card-front-start: #f093fb;
+  --card-front-end:   #f5576c;
+
+  /* Accents */
+  --gold: #ffd700;
+
+  /* Surface glass layers */
+  --glass-10: rgba(255,255,255,0.10);
+  --glass-12: rgba(255,255,255,0.12);
+  --glass-20: rgba(255,255,255,0.20);
+  --glass-30: rgba(255,255,255,0.30);
+
+  /* Text tokens */
+  --text-base: #ffffff;
+  --text-muted: #d1d5db;      /* gray-300 */
+  --text-accent: #fde047;     /* yellow-300 */
+  --text-secondary: #bfdbfe;  /* blue-200 */
+
+  /* Borders */
+  --border-accent-30: rgba(253,224,71,0.30);
+  --border-accent-50: rgba(253,224,71,0.50);
+}
+
+html { color-scheme: light; } /* prevent mobile auto-darkening */
+
+.mystical-bg {
+  background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%);
+}
+
+.card-back {
+  background: linear-gradient(135deg, var(--card-back-start) 0%, var(--card-back-end) 100%);
+  border: 3px solid var(--gold);
+}
+
+.card-front {
+  background: linear-gradient(135deg, var(--card-front-start) 0%, var(--card-front-end) 100%);
+  border: 3px solid var(--gold);
+}
+
+.glow { box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); }
+
+/* Map common utility classes to shared tokens */
+.text-white { color: var(--text-base) !important; }
+.text-yellow-300 { color: var(--text-accent) !important; }
+.text-blue-200 { color: var(--text-secondary) !important; }
+.text-gray-300 { color: var(--text-muted) !important; }
+
+.bg-white\/10 { background-color: var(--glass-10) !important; }
+.bg-white\/20 { background-color: var(--glass-20) !important; }
+.bg-white\/30 { background-color: var(--glass-30) !important; }
+.hover\:bg-white\/30:hover { background-color: var(--glass-30) !important; }
+
+.border-yellow-300\/30 { border-color: var(--border-accent-30) !important; }
+.border-yellow-300\/50 { border-color: var(--border-accent-50) !important; }
+.border-yellow-400\/30 { border-color: var(--border-accent-30) !important; }
+
+/* Shared desktop+mobile surface for selection cards / dialogs */
+.spread-option,
+.dialog,
+.modal {
+  background: var(--glass-12) !important;
+  color: var(--text-base) !important;
+  border-color: var(--border-accent-30) !important;
+  -webkit-backdrop-filter: saturate(180%) blur(8px);
+          backdrop-filter: saturate(180%) blur(8px);
+}
+
+/* Inputs & textareas — keep text readable without changing your bg */
+textarea, input {
+  color: var(--text-base) !important;
+  -webkit-text-fill-color: var(--text-base) !important; /* iOS Safari */
+  caret-color: var(--text-accent) !important;
+  font-size: 16px; /* prevent iOS zoom jumping */
+  max-width: 100%;
+}
+
+textarea::placeholder, input::placeholder {
+  color: var(--text-secondary) !important;
+  opacity: 1;
+}
+
+/* iOS Safari will sometimes brighten glass surfaces; gently rein them in */
+@supports (-webkit-touch-callout: none) {
+  .bg-white\/20,
+  .bg-white\/30,
+  textarea.bg-white\/20,
+  input.bg-white\/20,
+  .spread-option {
+    background-color: var(--glass-12) !important;
+  }
+}
+
+/* Normalize any warm overlay variants that appear on mobile */
+[class*="from-amber-900/20"][class*="to-yellow-900/20"],
+[class*="from-yellow-900/20"][class*="to-amber-900/20"] {
+  background-image: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%) !important;
+}
+
+html, body { overflow-x: hidden; }

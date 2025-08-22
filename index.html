@@ -69,21 +69,7 @@
             pointer-events: none;
         }
     
-/* =============================
-   THEME TOKENS & MOBILE PARITY
-   - Edit variables in :root to change the whole site's palette.
-   - We force a light color-scheme so mobile won't auto-darken/tint colors.
-   ============================= */
-:root {
-  --bg-start: #1e3c72;
-  --bg-end: #2a5298;
-  --card-back-start: #667eea;
-  --card-back-end: #764ba2;
-  --card-front-start: #f093fb;
-  --card-front-end: #f5576c;
-  --gold: #ffd700;
-
-  /* Layer surfaces */
+/* Layer surfaces */
   --surface-10: rgba(255,255,255,0.10);
   --surface-20: rgba(255,255,255,0.20);
 
@@ -123,12 +109,6 @@ html { color-scheme: light; -webkit-tap-highlight-color: transparent; }
 .glow { box-shadow: 0 0 20px rgba(255, 215, 0, 0.50); }
 
     
-
-/* =============================
-   MOBILE FIXES (Desktop-Color Parity)
-   - Keep colors identical to desktop.
-   - Ensure input/textarea text is visible on iOS/Android.
-   ============================= */
 
 /* Inputs & textareas: use the same text color as desktop and don't override background */
 input, textarea {
@@ -176,7 +156,58 @@ html, body {
   color: var(--text-base) !important;
   -webkit-text-fill-color: var(--text-base) !important;
 }
+
+/* Prefer light, don't let mobile auto-tint */
+html { color-scheme: light; }
+
+/* iOS Safari specific feature query */
+@supports (-webkit-touch-callout: none) {
+  /* Glass panels that used to be bg-white/20 become too bright on mobile.
+     Pull them back to ~12% opacity to match desktop look. */
+  .bg-white\/20,
+  .bg-white\/30,
+  textarea.bg-white\/20,
+  input.bg-white\/20,
+  .spread-option {
+    background-color: rgba(255,255,255,0.12) !important;
+    -webkit-backdrop-filter: saturate(180%) blur(8px);
+            backdrop-filter: saturate(180%) blur(8px);
+    color: var(--text-base) !important;
+  }
+
+  /* Ensure text is visible inside inputs on iOS Safari */
+  textarea, input {
+    color: var(--text-base) !important;
+    -webkit-text-fill-color: var(--text-base) !important;
+    caret-color: var(--text-accent) !important;
+    font-size: 16px; /* avoid zoom */
+  }
+  textarea::placeholder, input::placeholder {
+    color: var(--text-secondary) !important;
+    opacity: 1;
+  }
+}
+
+/* Force spread-selection cards and dialogs to use the same dark mystical look */
+.spread-option,
+.dialog,
+.modal {
+  background: rgba(255,255,255,0.12) !important;
+  color: var(--text-base) !important;
+  border-color: var(--border-accent-30) !important;
+}
+
+/* Some result/support blocks used warm amber/yellow gradient on mobile — normalize to desktop theme */
+[class*="from-amber-900/20"][class*="to-yellow-900/20"],
+[class*="from-yellow-900/20"][class*="to-amber-900/20"] {
+  background-image: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 100%) !important;
+}
+
+/* Fix horizontal overflow */
+html, body { overflow-x: hidden; }
+
 </style>
+  <link rel="stylesheet" href="theme.css">
 </head>
 <body class="mystical-bg min-h-screen text-white">
     <div class="container mx-auto px-4 py-8">
