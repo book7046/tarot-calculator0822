@@ -148,3 +148,31 @@ textarea:-webkit-autofill {
 
 
 html, body { overflow-x: hidden; }
+
+
+/* >>> CRITICAL: question input must use dark glass on mobile & desktop <<< */
+#questionInput,
+textarea#questionInput {
+  background-color: var(--glass-12) !important;
+  background-image: none !important;
+  color: var(--text-base) !important;
+  -webkit-text-fill-color: var(--text-base) !important;
+  border-color: var(--border-accent-50) !important;
+  background-clip: padding-box;
+  appearance: none;
+  -webkit-appearance: none;
+}
+#questionInput::placeholder,
+textarea#questionInput::placeholder {
+  color: var(--text-secondary) !important;
+  opacity: 1;
+}
+
+/* iOS Safari: defeat forced white background with inset shadow */
+@supports (-webkit-touch-callout: none) {
+  #questionInput,
+  textarea#questionInput {
+    -webkit-box-shadow: 0 0 0 1000px var(--glass-12) inset !important;
+            box-shadow: 0 0 0 1000px var(--glass-12) inset !important;
+  }
+}
